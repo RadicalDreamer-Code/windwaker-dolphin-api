@@ -1,0 +1,107 @@
+[
+    {
+        "id": "telescope",
+        "value": "20",
+        "size": 1
+    },
+    {
+        "id": "boatsSail",
+        "value": "78",
+        "size": 1
+    },
+    {
+        "id": "windWaker",
+        "value": "22",
+        "size": 1
+    },
+    {
+        "id": "grapplingHook",
+        "value": "25",
+        "size": 1
+    },
+    {
+        "id": "spoilsBagItem",
+        "value": "24",
+        "size": 1
+    },
+    {
+        "id": "boomerang",
+        "value": "2D",
+        "size": 1
+    },
+    {
+        "id": "dekuLeaf",
+        "value": "34",
+        "size": 1
+    },
+    {
+        "id": "tingleTuner",
+        "value": "21",
+        "size": 1
+    },
+    {
+        "id": "pictoBox",
+        "value": "23",
+        "size": 1
+    },
+    {
+        "id": "ironBoots",
+        "value": "29",
+        "size": 1
+    },
+    {
+        "id": "magicArmor",
+        "value": "2A",
+        "size": 1
+    },
+    {
+        "id": "baitBag",
+        "value": "2C",
+        "size": 1
+    },
+    {
+        "id": "herosBow",
+        "value": "27",
+        "size": 1
+    },
+    {
+        "id": "bombs",
+        "value": "31",
+        "size": 1
+    },
+    {
+        "id": "emptyBottle",
+        "value": "50",
+        "size": 1
+    },
+    {
+        "id": "emptyBottle2",
+        "value": "50",
+        "size": 1
+    },
+    {
+        "id": "emptyBottle3",
+        "value": "50",
+        "size": 1
+    },
+    {
+        "id": "emptyBottle4",
+        "value": "50",
+        "size": 1
+    },
+    {
+        "id": "deliveryBag",
+        "value": "30",
+        "size": 1
+    },
+    {
+        "id": "hookshot",
+        "value": "2F",
+        "size": 1
+    },
+    {
+        "id": "skullHammer",
+        "value": "33",
+        "size": 1
+    }
+]

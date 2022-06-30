@@ -1,0 +1,149 @@
+[
+    {
+        "id": "inventory",
+        "offset": "803C4C44",
+        "size": 21,
+        "slots": [
+            {
+                "id": "telescope",
+                "offset": "00",
+                "size": 1
+            },
+            {
+                "id": "boatsSail",
+                "offset": "01",
+                "size": 1
+            },
+            {
+                "id": "windWaker",
+                "offset": "02",
+                "size": 1
+            },
+            {
+                "id": "grapplingHook",
+                "offset": "03",
+                "size": 1
+            },
+            {
+                "id": "spoilsBagItem",
+                "offset": "04",
+                "size": 1
+            },
+            {
+                "id": "boomerang",
+                "offset": "05",
+                "size": 1
+            },
+            {
+                "id": "dekuLeaf",
+                "offset": "06",
+                "size": 1
+            },
+            {
+                "id": "tingleTuner",
+                "offset": "07",
+                "size": 1
+            },
+            {
+                "id": "pictoBox",
+                "offset": "08",
+                "size": 1
+            },
+            {
+                "id": "ironBoots",
+                "offset": "09",
+                "size": 1
+            },
+            {
+                "id": "magicArmor",
+                "offset": "10",
+                "size": 1
+            },
+            {
+                "id": "baitBag",
+                "offset": "11",
+                "size": 1
+            },
+            {
+                "id": "herosBow",
+                "offset": "12",
+                "size": 1
+            },
+            {
+                "id": "bombs",
+                "offset": "13",
+                "size": 1
+            },
+            {
+                "id": "emptyBottle",
+                "offset": "14",
+                "size": 1
+            },
+            {
+                "id": "emptyBottle2",
+                "offset": "15",
+                "size": 1
+            },
+            {
+                "id": "emptyBottle3",
+                "offset": "16",
+                "size": 1
+            },
+            {
+                "id": "emptyBottle4",
+                "offset": "17",
+                "size": 1
+            },
+            {
+                "id": "deliveryBag",
+                "offset": "18",
+                "size": 1
+            },
+            {
+                "id": "hookshot",
+                "offset": "19",
+                "size": 1
+            },
+            {
+                "id": "skullHammer",
+                "offset": "20",
+                "size": 1
+            }
+        ]
+    },
+    {
+        "id": "melodies",
+        "offset": "803C4CC5",
+        "size": 1
+    },
+    {
+        "id": "triforce",
+        "offset": "803C4CC6",
+        "size": 1
+    },
+    {
+        "id": "gems",
+        "offset": "803C4CC7",
+        "size": 1
+    },
+    {
+        "id": "swordInHand",
+        "offset": "803C4C16",
+        "size": 1
+    },
+    {
+        "id": "shieldInHand",
+        "offset": "803C4C17",
+        "size": 1
+    },
+    {
+        "id": "seedName",
+        "offset": "80E376A1",
+        "size": 11
+    }, 
+    {
+        "id": "currentHP",
+        "offset": "803C4C0A",
+        "size": 2
+    }
+]
