@@ -4,11 +4,6 @@ using Client.Dolphin;
 
 namespace Client {
     class Program {
-
-        static public DateTime thisDate = DateTime.Now;
-
-        static protected SerialManager serialManager = new SerialManager();
-        static Player player = new Player(255, "Radical", serialManager);
         static void Main(string[] args) {
             Library.Initialize();
 
