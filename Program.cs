@@ -1,18 +1,17 @@
 ﻿using System;
-using WebSocketSharp;
 using Client.Dolphin;
 
 namespace Client {
     class Program {
-        static void Main(string[] args) {
-            Library.Initialize();
+        //static void Main(string[] args) {
+        //    Library.Initialize();
 
-            Library.OnWindwakerBeat += OnWindwakerBeat;
-            Library.OnPlayingWindwakerChanged += OnPlayingWindwakerChanged;
-            Library.OnTreasureChestOpen += OnTreasureChestOpen;
+        //    Library.OnWindwakerBeat += OnWindwakerBeat;
+        //    Library.OnPlayingWindwakerChanged += OnPlayingWindwakerChanged;
+        //    Library.OnTreasureChestOpen += OnTreasureChestOpen;
 
-            while(true) {}
-        }
+        //    while(true) {}
+        //}
 
         // example functions
         static void OnWindwakerBeat()

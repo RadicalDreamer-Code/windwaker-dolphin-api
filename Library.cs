@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 namespace Client
 {
-    class Library {
+    public class Library {
         private static MemManager memManager;
+        private static DolphinAccessor dolphinAccessor;
         public static bool IsInitialized => memManager != null;
 
         private static byte currentEvent = 0x0;
@@ -18,18 +19,32 @@ namespace Client
         public static Action<byte> OnHealthChanged = delegate { };
         public static Action<byte> OnPlayerStatusChanged = delegate { };
         public static Action<bool> OnPlayingWindwakerChanged = delegate { };
-        public static Action OnWindwakerBeat = delegate { };
         public static Action<bool> OnCameraLockedChanged = delegate { };
+        public static Action OnWindwakerBeat = delegate { };
         public static Action OnDoorOpen = delegate { };
         public static Action OnTreasureChestOpen = delegate { };
 
-        public static void Initialize()
+        public static bool Initialize()
         {
-            DolphinAccessor dolphinAccessor = new DolphinAccessor();
+            dolphinAccessor = new DolphinAccessor();
             memManager = new MemManager(dolphinAccessor);
-            memManager.Initialize();
 
-            memManager.RamChanged += OnRamChanged;
+            if(memManager.Initialize())
+            {
+                memManager.RamChanged += OnRamChanged;
+                return true;
+            } else
+            {
+                return false;
+            }
+
+        }
+
+        public static void Stop()
+        {
+            dolphinAccessor.unhook();
+            memManager.RamChanged -= OnRamChanged;
+            memManager.Stop();
         }
 
         private static void OnRamChanged(object source, RAMDataEventArgs e)

@@ -25,10 +25,6 @@ namespace Client {
             new OffsetId[] { 
                 OffsetId.CURRENTHEALTH,
                 OffsetId.CURRENTWINDWAKERBEAT,
-                OffsetId.PLAYERSTATUS,
-                OffsetId.PLAYERSTATUS2,
-                OffsetId.CAMERAEVENT,
-                OffsetId.EVENTCONTROL,
             }
         );
 
@@ -49,9 +45,17 @@ namespace Client {
             
             Console.WriteLine("Hooked");
 
+            FilteredOffsets = new List<Offset>();
             FilterOffsets(Data.Offsets);
             StartMemWatch();
             return true;
+        }
+
+        public void Stop()
+        {
+            // TODO: proper error handling
+            dolphinAccessor.unhook();
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         private void FilterOffsets(ReadOnlyCollection<Offset> Offsets) {
@@ -63,6 +67,7 @@ namespace Client {
         }
 
         private void StartMemWatch() {
+            System.Diagnostics.Debug.WriteLine("Start the Mem-Watch");
             //Mem-Cache
             this.memValueList = new List<byte[]>();
             
@@ -72,6 +77,7 @@ namespace Client {
 
             timer = new Timer(obj => {
                 for (int i = 0; i < this.FilteredOffsets.Count; i++) {
+                
                     offset = this.FilteredOffsets[i];
                     buffer = new byte[offset.length];
                     //MemoryType memType = (size > 1) ? MemoryType.ByteArray : MemoryType.Byte; //TODO get right mem-type
@@ -84,11 +90,12 @@ namespace Client {
                         )) {
                         
                         Console.WriteLine("[{0:T}] " + "Failed to read RAM on " + offset.address, thisDate);
+                        //Stop();
                         continue;
                     }
 
                     if (memValueList[i].Length >= 1 && CompareArrays(buffer, memValueList[i])) {
-                        //Console.WriteLine("Nothing changed for " + offset.id);
+                        //System.Diagnostics.Debug.WriteLine("Nothing changed for " + offset.address);
                         continue;
                     }
 
@@ -97,6 +104,8 @@ namespace Client {
                 }
             }, null, checkTime, checkTime);
         }
+
+        
 
         protected virtual void OnRamChanged(Offset offset, Byte[] buffer) {
             if (RamChanged != null) // if there are any subscribers
