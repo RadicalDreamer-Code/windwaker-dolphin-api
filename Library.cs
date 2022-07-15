@@ -9,6 +9,7 @@ namespace Client
         private static MemManager memManager;
         private static DolphinAccessor dolphinAccessor;
         public static bool IsInitialized => memManager != null;
+        public static Game game = new Game() { id = GameId.NOT_FOUND };
 
         private static byte currentEvent = 0x0;
 
@@ -29,15 +30,12 @@ namespace Client
             dolphinAccessor = new DolphinAccessor();
             memManager = new MemManager(dolphinAccessor);
 
-            if(memManager.Initialize())
-            {
-                memManager.RamChanged += OnRamChanged;
-                return true;
-            } else
-            {
+            game = memManager.Initialize();
+            if (game.id == GameId.NOT_FOUND)
                 return false;
-            }
 
+            memManager.RamChanged += OnRamChanged;
+            return true;
         }
 
         public static void Stop()
@@ -54,48 +52,48 @@ namespace Client
 
             switch (e.offset.id)
             {
-                case OffsetId.INVENTORY:
+                case OffsetId.WW_INVENTORY:
                     OnInventoryChanged(buffer);
                     break;
 
-                case OffsetId.MELODIES:
+                case OffsetId.WW_MELODIES:
                     OnMelodyChanged(buffer[0]);
                     break;
 
-                case OffsetId.TRIFORCE:
+                case OffsetId.WW_TRIFORCE:
                     OnTriforceChanged(buffer[0]);
                     break;
 
-                case OffsetId.GEMS:
+                case OffsetId.WW_GEMS:
                     OnGemsChanged(buffer[0]);
                     break;
 
-                case OffsetId.SWORDINHAND:
+                case OffsetId.WW_SWORDINHAND:
                     break;
 
-                case OffsetId.SCHIELDINHAND:
+                case OffsetId.WW_SCHIELDINHAND:
                     break;
 
-                case OffsetId.CURRENTHEALTH:
+                case OffsetId.WW_CURRENTHEALTH:
                     OnHealthChanged(buffer[0]);
                     break;
 
-                case OffsetId.CURRENTWINDWAKERBEAT:
+                case OffsetId.WW_CURRENTWINDWAKERBEAT:
                     OnWindwakerBeat();
                     break;
 
-                case OffsetId.ACTIVEWINDWAKERNOTES:
+                case OffsetId.WW_ACTIVEWINDWAKERNOTES:
                     break;
 
-                case OffsetId.PLAYERSTATUS:
+                case OffsetId.WW_PLAYERSTATUS:
                     OnPlayerStatusChanged(buffer[buffer.Length - 1]);
                     break;
 
-                case OffsetId.PLAYERSTATUS2:
+                case OffsetId.WW_PLAYERSTATUS2:
                     OnPlayingWindwakerChanged(buffer[buffer.Length - 1] == 0x01);
                     break;
 
-                case OffsetId.CAMERAEVENT:
+                case OffsetId.WW_CAMERAEVENT:
                     byte value = buffer[offset.length - 1];
 
                     if (value == 0x00)
@@ -120,7 +118,7 @@ namespace Client
                     }
                     break;
 
-                case OffsetId.EVENTCONTROL:
+                case OffsetId.WW_EVENTCONTROL:
                     currentEvent = buffer[offset.length - 1];
                     break;
 

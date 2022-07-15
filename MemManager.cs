@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using Client.Dolphin;
+using System.Collections;
 
 namespace Client {
     public class RAMDataEventArgs : EventArgs
@@ -21,12 +22,7 @@ namespace Client {
         DolphinAccessor dolphinAccessor;
         public event EventHandler<RAMDataEventArgs> RamChanged;
         public List<Offset> FilteredOffsets = new List<Offset>();
-        public List<OffsetId> SelectedOffsets = new List<OffsetId>(
-            new OffsetId[] { 
-                OffsetId.CURRENTHEALTH,
-                OffsetId.CURRENTWINDWAKERBEAT,
-            }
-        );
+        public List<OffsetId> SelectedOffsets = new List<OffsetId>();
 
         Offset offset;
         private List<byte[]> memValueList;
@@ -37,18 +33,33 @@ namespace Client {
             this.dolphinAccessor = dolphinAccessor;
         }
 
-        public bool Initialize() {
+        public Game Initialize() {
+            Game noGame = new Game { id = GameId.NOT_FOUND };
+
             if (!dolphinAccessor.hook()) {
-                Console.WriteLine("Couldn't hook to Dolphin");
-                return false;
+                System.Diagnostics.Debug.WriteLine("Couldn't hook to Dolphin");
+                return noGame;
             }
-            
-            Console.WriteLine("Hooked");
 
             FilteredOffsets = new List<Offset>();
-            FilterOffsets(Data.Offsets);
+
+            Game game = SelectGame();
+
+            if (game.id == GameId.NOT_FOUND)
+            {
+                dolphinAccessor.unhook();
+                return noGame;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"Hooked with {game.name}");
+
+            if (game.id == GameId.ZELDA_WINDWAKER_NTSC)
+                FilteredOffsets = Data.WW_Offsets.ToList<Offset>();
+            else if (game.id == GameId.RESIDENT_EVIL_4_PAL)
+                FilteredOffsets = Data.RE4_Offsets.ToList<Offset>();
+
             StartMemWatch();
-            return true;
+            return game;
         }
 
         public void Stop()
@@ -66,13 +77,40 @@ namespace Client {
             }
         }
 
+        private Game SelectGame()
+        {
+            Game noGame = new Game { id = GameId.NOT_FOUND };
+
+            if (dolphinAccessor.Status != DolphinStatus.Hooked)
+                return noGame;
+
+            offset = Data.GameIdOffset;
+            buffer = new byte[offset.length];
+
+            if (!dolphinAccessor.read(Dolphin.Common.dolphinAddrToOffset(offset.address),
+                MemoryType.ByteArray,
+                out buffer,
+                false,
+                offset.length
+                ))
+            {
+
+                Console.WriteLine("[{0:T}] " + "Failed to read RAM on " + offset.address, thisDate);
+                Stop();
+                return noGame;
+            }
+
+            string gameIdentifier = Encoding.UTF8.GetString(buffer);
+            return Data.Games.Where(x => x.identifier == gameIdentifier).FirstOrDefault(noGame);
+        }
+
         private void StartMemWatch() {
             System.Diagnostics.Debug.WriteLine("Start the Mem-Watch");
             //Mem-Cache
-            this.memValueList = new List<byte[]>();
+            memValueList = new List<byte[]>();
             
-            foreach (Offset offset in this.FilteredOffsets) {
-                this.memValueList.Add(new byte[0]);
+            foreach (Offset offset in FilteredOffsets) {
+                memValueList.Add(new byte[0]);
             }
 
             timer = new Timer(obj => {
@@ -88,8 +126,8 @@ namespace Client {
                         false,
                         offset.length
                         )) {
-                        
-                        Console.WriteLine("[{0:T}] " + "Failed to read RAM on " + offset.address, thisDate);
+
+                        System.Diagnostics.Debug.WriteLine("[{0:T}] " + "Failed to read RAM on " + offset.address, thisDate);
                         //Stop();
                         continue;
                     }
